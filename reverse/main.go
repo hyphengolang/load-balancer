@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"net/http"
@@ -23,6 +24,10 @@ func NewProxy(targetHost string) (*httputil.ReverseProxy, error) {
 func ProxyRequestHandler(proxy *httputil.ReverseProxy) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("[proxy server] received request at: %s\n", time.Now())
+		// proxy.ModifyResponse = func(resp *http.Response) error {
+		// 	// fmt.Fprintf(resp.Body, "[proxy server] received response at: %s\n", time.Now())
+		// 	return nil
+		// }
 		proxy.ServeHTTP(w, r)
 	}
 }
